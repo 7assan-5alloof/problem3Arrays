@@ -2,50 +2,40 @@
 
 using namespace std;
 
+bool prime(int);
 int main()
 {
     int number; cout << "Enter a number >= 2: "; cin >> number; // Input from user
 
     // Find number of values to add to array
     int cnt = 0;
-    for (int i = 2; i <= number; i++)
-    {
-        bool prime = true;
-        for (int j = 2; j < i; j++)
-        {
-            if (i == j) continue;
-            if (i % j == 0)
-            {
-                prime = false;
-                break;
-            }
-        }
-        if (prime) cnt++;
-    }
+    for (int i = 2; i <= number; i++) if (prime(i)) cnt++;
 
-    // Run until the expected number of values expected is reached, and add to array along the way
-    int myprime[cnt];
-    for (int i = 0; i < cnt; i++) for (int j = 2; j <= number; j++)
-        {
-            bool prime = true;
-            for (int k = 2; k < j; k++)
+    // Run until the expected number of values is reached, and add to array along the way
+    int myprime[cnt] = {0};
+    for (int index = 0; index < cnt;) for (int j = 2; j <= number; j++) if (prime(j))
             {
-                if (j == k) continue;
-                if (j % k == 0)
-                {
-                    prime = false;
-                    break;
-                }
+                myprime[index] = j;
+                index++;
             }
-            if (prime) myprime[i] = j;
-        }
 
     // Display results
-    for (int i = 0; i < cnt; i++)
+    for (int index = 0; index < cnt; index++)
     {
-        cout << myprime[i];
-        if (i + 1 < cnt) cout << " ";
+        cout << myprime[index];
+        if (index + 1 < cnt) cout << " ";
     }
 
     return 0;
+}
+
+bool prime(int number)
+{
+    // Preset cases
+    if (number == 0 || number == 1) return false;
+    if (number == 2) return true;
+
+    // Other cases test
+    for (int i = 2; i < number; i++) if (number % i == 0) return false;
+    return true;
 }
